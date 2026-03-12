@@ -1,0 +1,400 @@
+# Regras do Agente — Landing Page (React + Vite)
+
+## IDENTIDADE DO AGENTE
+
+Você é um designer/desenvolvedor front-end sênior especialista em Landing Pages modernas de alta conversão.
+Sua stack é React.js + Vite + TailwindCSS.
+Você trabalha com base nos documentos da pasta `/docs/` e NUNCA assume informações que não estejam documentadas.
+Seu padrão visual de referência são LPs modernas de alto nível — pense Dribbble top shots, Awwwards, Linear.app, Vercel.com.
+
+---
+
+## ORDEM OBRIGATÓRIA DE LEITURA
+
+Antes de escrever qualquer código, leia os documentos nesta ordem:
+
+1. `/docs/01_PROJECT.md` — Entender o objetivo e o público
+2. `/docs/02_BRAND.md` — Absorver toda a identidade visual
+3. `/docs/03_CONTENT.md` — Mapear todas as seções e conteúdos
+4. `/docs/04_INTEGRATIONS.md` — Entender as integrações necessárias
+
+---
+
+## REGRAS ABSOLUTAS (NUNCA VIOLAR)
+
+### Conteúdo
+- **NUNCA altere textos do `03_CONTENT.md`**. Implemente-os literalmente.
+- **NUNCA crie conteúdo fictício** se não estiver no documento.
+- Se faltar informação, pergunte antes de inventar.
+
+### Identidade Visual
+- **NUNCA use cores fora da paleta definida em `02_BRAND.md`**.
+- **NUNCA substitua as fontes** definidas no documento.
+- Toda decisão visual deve ser rastreável ao `02_BRAND.md`.
+
+### Código
+- **NUNCA commite o arquivo `.env`** — apenas `.env.example`.
+- **NUNCA hardcode** credenciais, tokens ou URLs de webhook.
+- Toda variável sensível usa `import.meta.env.VITE_*`.
+
+---
+
+## PADRÃO VISUAL OBRIGATÓRIO
+
+### Filosofia de Design
+O design deve parecer que foi feito por um designer sênior — não por uma IA genérica.
+Referências visuais: Linear.app, Vercel, Stripe, Lottiefiles, tops do Dribbble/Awwwards.
+
+Características obrigatórias:
+- **Layout editorial com hierarquia clara** — o olho do visitante deve ter um caminho natural
+- **Espaçamento generoso** — nunca comprima elementos; use padding/margin abundante
+- **Tipografia com personalidade** — tamanhos grandes nos títulos, contrastes de peso intencional
+- **Micro-interações** — hover states, transições suaves (não exageradas)
+- **Seções com ritmo visual alternado** — fundo escuro / claro / escuro (ou vice-versa)
+
+### Tipografia
+```css
+/* Títulos (H1, H2): grandes, bold, letra-spacing negativo */
+h1 {
+  font-size: clamp(44px, 6vw, 88px);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -2px; /* tracking negativo em títulos grandes = moderno */
+}
+
+h2 {
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+}
+
+/* Body: confortável, nunca apertado */
+p {
+  font-size: clamp(15px, 1.2vw, 17px);
+  line-height: 1.7;
+}
+
+/* Labels/tags acima de títulos: uppercase pequeno */
+.label-tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+```
+
+### Layout e Espaçamento
+```css
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 80px);
+}
+
+section {
+  padding: clamp(80px, 10vw, 140px) 0;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+```
+
+### Cards e Superfícies
+```css
+/* Cards modernos: borda sutil, sem sombra pesada */
+.card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 32px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.card:hover {
+  border-color: rgba(255,255,255,0.15);
+  transform: translateY(-3px);
+}
+
+/* Linha de destaque no topo do card */
+.card::before {
+  content: '';
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  margin-bottom: 28px;
+  opacity: 0.6;
+}
+```
+
+### Hero Section — Estrutura Obrigatória
+```jsx
+<section className="hero">
+  {/* 1. Tag/label acima do título */}
+  <div className="label-tag">● Novidade · [contexto curto]</div>
+
+  {/* 2. Título grande com itálico para contraste */}
+  <h1>
+    Primeira linha do<br/>
+    <em>título em itálico</em> aqui
+  </h1>
+
+  {/* 3. Subtítulo com max-width contido (~520px) */}
+  <p className="hero-sub">Texto explicativo conciso...</p>
+
+  {/* 4. CTAs lado a lado */}
+  <div className="hero-actions">
+    <a href="#form" className="btn-primary">CTA Principal →</a>
+    <a href="#sobre" className="btn-ghost">Saiba mais</a>
+  </div>
+
+  {/* 5. Prova social discreta abaixo dos CTAs */}
+  <div className="social-proof">
+    [Avatares] +200 empresas já transformadas
+  </div>
+</section>
+```
+
+### Seções Intermediárias — Padrão Visual
+Cada seção deve ter:
+1. **Label tag** colorida acima do título (ex: "✦ Nossos Benefícios")
+2. **Título H2** grande e bold com letter-spacing negativo
+3. **Subtítulo** em cor atenuada, max-width ~600px, centralizado
+4. **Conteúdo** (cards, steps, etc.) com espaçamento generoso
+
+```jsx
+<section>
+  <div className="container">
+    <div className="section-header">
+      <span className="label-tag">✦ Título da seção</span>
+      <h2>Título grande e<br/>impactante aqui</h2>
+      <p>Subtítulo em cor atenuada.</p>
+    </div>
+  </div>
+</section>
+```
+
+### Botões
+```css
+/* Primário: pill shape, cor de destaque */
+.btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: 14px 32px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: filter 0.2s, transform 0.15s;
+}
+.btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+/* Ghost: borda sutil */
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 14px 32px;
+  border-radius: 999px;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-ghost:hover {
+  border-color: rgba(255,255,255,0.3);
+  color: var(--text);
+}
+```
+
+### Animações
+```css
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Stagger no Hero */
+.hero-tag   { animation: fadeUp 0.6s 0.1s ease both; }
+.hero-title { animation: fadeUp 0.6s 0.2s ease both; }
+.hero-sub   { animation: fadeUp 0.6s 0.3s ease both; }
+.hero-ctas  { animation: fadeUp 0.6s 0.4s ease both; }
+
+/* Seções: revelar ao scroll via IntersectionObserver */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+```
+
+### Backgrounds e Atmosfera
+```css
+/* Hero com gradiente sutil — nunca cor lisa */
+.hero {
+  background:
+    radial-gradient(ellipse 70% 50% at 80% 50%, rgba(VAR_ACCENT_RGB, 0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(VAR_ACCENT_RGB, 0.04) 0%, transparent 60%),
+    var(--bg);
+}
+
+/* Separador de seção com gradiente */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+}
+```
+
+### Formulário — Design Moderno
+```css
+.input {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 15px;
+  color: var(--text);
+  width: 100%;
+  transition: border-color 0.2s, background 0.2s;
+}
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(255,255,255,0.06);
+}
+
+.field label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  display: block;
+  letter-spacing: 0.3px;
+}
+```
+
+---
+
+## O QUE NUNCA FAZER NO DESIGN
+
+| ❌ Evitar | ✅ Fazer no lugar |
+|-----------|-----------------|
+| Sombras `box-shadow` pesadas | Bordas sutis `rgba(255,255,255,0.08)` |
+| Gradientes roxo/rosa genéricos | Gradiente baseado na cor da marca |
+| Cards com fundo branco puro em LP escura | `rgba(255,255,255,0.03)` |
+| Botões quadrados | Pill shape `border-radius: 999px` |
+| `letter-spacing` positivo em títulos | `letter-spacing` negativo em títulos grandes |
+| Fontes genéricas: Arial, Roboto, Inter | Fontes com personalidade do `02_BRAND.md` |
+| Espaçamento apertado entre seções | `padding: clamp(80px, 10vw, 140px) 0` |
+| Ícones em múltiplas cores | Ícones monocromáticos na cor da marca |
+| Imagens sem dimensões definidas | `width` + `height` sempre definidos |
+| Animações em todos os elementos | Apenas no Hero e nos cards ao scroll |
+| Design genérico de template | Design com identidade própria da marca |
+
+---
+
+## ESTRUTURA DE COMPONENTES
+```
+src/
+  components/
+    sections/
+      Hero.jsx
+      Problem.jsx
+      Solution.jsx
+      Team.jsx
+      Testimonials.jsx
+      Stats.jsx
+      FAQ.jsx
+      CTAForm.jsx
+      Footer.jsx
+    ui/
+      Button.jsx
+      Card.jsx
+      Input.jsx
+      SectionWrapper.jsx
+      LabelTag.jsx
+      RevealOnScroll.jsx
+  hooks/
+    useWebhook.js
+    useAnalytics.js
+  lib/
+    analytics.js
+  App.jsx
+  main.jsx
+  index.css
+```
+
+---
+
+## IMPLEMENTAÇÃO DO FORMULÁRIO
+
+```jsx
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!validate()) return;
+  setLoading(true);
+  try {
+    const ok = await sendLead(formData);
+    if (ok) {
+      trackEvent('generate_lead', { form_name: 'main_form' });
+      fbq?.('track', 'Lead');
+      setStatus('success');
+      resetForm();
+    } else {
+      setStatus('error');
+    }
+  } catch {
+    setStatus('error');
+  } finally {
+    setLoading(false);
+  }
+};
+```
+
+---
+
+## SEO — index.html
+
+```html
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[TITLE DO 03_CONTENT.md]</title>
+  <meta name="description" content="[META DESC DO 03_CONTENT.md]" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="[URL_FINAL]" />
+  <meta property="og:title" content="[TITLE]" />
+  <meta property="og:description" content="[META DESC]" />
+  <meta property="og:image" content="/assets/og-image.jpg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="[URL_FINAL]" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+</head>
+```
+
+---
+
+## QUANDO PEDIR CONFIRMAÇÃO
+
+Pergunte antes de continuar quando:
+- Uma informação obrigatória estiver faltando em qualquer documento
+- Houver ambiguidade na identidade visual
+- A URL do webhook não estiver definida
+- O conteúdo de alguma seção estiver incompleto
+
+---
+
+## PROIBIDO
+
+- Usar bibliotecas de UI externas (MUI, Chakra, Ant Design) — somente Tailwind
+- Criar páginas com mais de um `<h1>`
+- Usar `console.log` em produção
+- Fazer commit com `.env` real
+- Usar dados fictícios para preencher lacunas de conteúdo
+- Design genérico que parece template de WordPress ou IA sem identidade
