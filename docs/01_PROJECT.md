@@ -6,7 +6,7 @@
 ## IDENTIFICAÇÃO
 
 - **Nome da empresa:** SucessOdonto / Grupo ICOM
-- **Segmento / nicho:** Marketing e Gestão para Dentistas / Odontologia
+- **Segmento / nicho:** Marketing e Gestão para Dentistas - Odontologia
 - **Site atual (se houver):** [https://lp.sucessodonto.com.br/low-ticket]
 - **Data de início:** [11/03/26]
 - **Prazo de entrega:** [12/03/26]
