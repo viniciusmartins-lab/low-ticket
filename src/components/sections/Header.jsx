@@ -5,9 +5,11 @@
 import { Button } from '../ui/Button';
 import { trackEvent } from '../../lib/analytics';
 
-export function Header() {
-  const handleCtaClick = () => {
-    trackEvent('click_cta_hero', { button_text: 'Quero meu checklist', page_location: window.location.href });
+export function Header({ onOpenLeadForm }) {
+  const handleCtaClick = (e) => {
+    e?.preventDefault?.();
+    trackEvent('click_cta_hero', { button_text: 'Quero meu ticket', page_location: window.location.href });
+    onOpenLeadForm?.();
   };
 
   return (
@@ -21,7 +23,7 @@ export function Header() {
           />
         </a>
         <Button href="#formulario" variant="primary" onClick={handleCtaClick}>
-          Quero meu checklist
+          Quero meu ticket
         </Button>
       </div>
     </header>

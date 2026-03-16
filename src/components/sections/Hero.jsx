@@ -5,9 +5,11 @@ import { Button } from '../ui/Button';
 import { LabelTag } from '../ui/LabelTag';
 import { trackEvent } from '../../lib/analytics';
 
-export function Hero() {
-  const handleCtaClick = () => {
-    trackEvent('click_cta_hero', { button_text: 'Quero meu checklist', page_location: window.location.href });
+export function Hero({ onOpenLeadForm }) {
+  const handleCtaClick = (e) => {
+    e?.preventDefault?.();
+    trackEvent('click_cta_hero', { button_text: 'Quero meu ticket', page_location: window.location.href });
+    onOpenLeadForm?.();
   };
 
   return (
@@ -76,7 +78,7 @@ export function Hero() {
         {/* CTAs */}
         <div className="hero-ctas flex flex-wrap justify-center gap-4">
           <Button href="#formulario" variant="primary" onClick={handleCtaClick}>
-            Quero meu checklist
+            Quero meu ticket
           </Button>
         </div>
 

@@ -38,7 +38,7 @@ export function ParaQuem() {
       {/* Grid 2 colunas */}
       <RevealOnScroll className="mx-auto mt-12 max-w-3xl">
         <div className="grid gap-4 sm:grid-cols-2">
-          {items.map(({ text }, index) => (
+          {items.map(({ text }) => (
             <div
               key={text}
               className="group flex gap-4 rounded-2xl p-5 transition-all duration-300"

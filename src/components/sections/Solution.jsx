@@ -1,6 +1,7 @@
 /**
  * [4] SOLUÇÃO / BENEFÍCIOS — 03_CONTENT.md + cursor-rules (label, H2, cards).
  */
+import { createElement } from 'react';
 import { LabelTag } from '../ui/LabelTag';
 import { RevealOnScroll } from '../ui/RevealOnScroll';
 import { Shield, Star, Zap, TrendingUp } from 'lucide-react';
@@ -83,7 +84,11 @@ export function Solution() {
                   className="w-10 h-10 rounded-xl flex items-center justify-center"
                   style={{ background: 'rgba(194,176,103,0.1)' }}
                 >
-                  <Icon className="h-5 w-5" style={{ color: 'var(--color-primary)' }} aria-hidden="true" />
+                  {createElement(Icon, {
+                    className: 'h-5 w-5',
+                    style: { color: 'var(--color-primary)' },
+                    'aria-hidden': true,
+                  })}
                 </div>
 
                 {/* Título */}

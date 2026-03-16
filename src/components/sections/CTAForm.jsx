@@ -1,7 +1,7 @@
 /**
  * [10] CTA FINAL — 03_CONTENT.md
- * Apenas botão CTA, sem formulário.
  */
+import { createElement } from 'react';
 import { Button } from '../ui/Button';
 import { LabelTag } from '../ui/LabelTag';
 import { trackEvent } from '../../lib/analytics';
@@ -13,12 +13,14 @@ const guarantees = [
   { icon: Download, text: 'Download direto' },
 ];
 
-export function CTAForm() {
-  const handleCtaClick = () => {
+export function CTAForm({ onOpenLeadForm }) {
+  const handleCtaClick = (e) => {
+    e?.preventDefault?.();
     trackEvent('click_cta_final', {
-      button_text: 'Quero meu checklist',
+      button_text: 'Quero meu ticket',
       page_location: typeof window !== 'undefined' ? window.location.href : '',
     });
+    onOpenLeadForm?.();
   };
 
   return (
@@ -74,13 +76,13 @@ export function CTAForm() {
         </div>
 
         <Button href="#formulario" variant="primary" onClick={handleCtaClick} className="text-base px-10 py-4">
-          Quero meu checklist
+          Quero meu ticket
         </Button>
 
         <div className="flex flex-wrap justify-center gap-5 mt-2">
           {guarantees.map(({ icon: Icon, text }) => (
             <div key={text} className="flex items-center gap-2">
-              <Icon className="w-4 h-4" style={{ color: 'rgba(194,176,103,0.6)' }} />
+              {createElement(Icon, { className: 'w-4 h-4', style: { color: 'rgba(194,176,103,0.6)' } })}
               <span className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>{text}</span>
             </div>
           ))}

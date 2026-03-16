@@ -3,17 +3,24 @@
  * URL em .env: VITE_WEBHOOK_URL
  */
 export const useWebhook = () => {
+  const getUtm = (key) => (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get(key) || '' : '');
+
   const sendLead = async (formData) => {
-    const url = import.meta.env.VITE_WEBHOOK_URL;
+    const url = import.meta.env.VITE_WEBHOOK_URL || 'https://webmkt.sucessodonto.com.br/webhook/testes-lp-caca';
     if (!url) return false;
 
+    const pageUrl = typeof window !== 'undefined' ? window.location.href : '';
     const payload = {
       source: 'landing-page',
-      page_url: typeof window !== 'undefined' ? window.location.href : '',
+      page_url: pageUrl,
+      pagina_captura: pageUrl,
+      url: pageUrl,
       timestamp: new Date().toISOString(),
-      utm_source: typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('utm_source') || '' : '',
-      utm_medium: typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('utm_medium') || '' : '',
-      utm_campaign: typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('utm_campaign') || '' : '',
+      utm_source: getUtm('utm_source'),
+      utm_term: getUtm('utm_term'),
+      utm_campaign: getUtm('utm_campaign'),
+      utm_medium: getUtm('utm_medium'),
+      utm_content: getUtm('utm_content'),
       name: formData.name || '',
       email: formData.email || '',
       phone: formData.phone || '',
